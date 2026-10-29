@@ -43,12 +43,9 @@ DAMAGE.
 void
 stimage_error_init(stimage_error_t *const error)
 {
-
-    size_t i;
-
-    for (i = 0; i < STIMAGE_MAX_ERROR_LEN; ++i) {
-        error->message[i] = '\0';
-    }
+    /* No need to zero out the entire array, just set
+       the first character to '\0' */
+    error->message[0] = '\0';
 }
 
 void
@@ -58,7 +55,7 @@ stimage_error_set_message(stimage_error_t *error, const char *message)
     assert(error);
     assert(message);
 
-    strncpy(error->message, message, STIMAGE_MAX_ERROR_LEN);
+    strncpy(error->message, message, STIMAGE_MAX_ERROR_LEN - 1);
 
 #if DEBUG
     printf("ERROR RAISED:\n%s\n", error->message);
@@ -79,7 +76,7 @@ stimage_error_format_message(stimage_error_t *error, const char *format, ...)
     assert(format);
 
     va_start(argp, format);
-    (void) vsnprintf(error->message, STIMAGE_MAX_ERROR_LEN, format, argp);
+    (void) vsnprintf(error->message, STIMAGE_MAX_ERROR_LEN - 1, format, argp);
     va_end(argp);
 }
 
