@@ -142,8 +142,8 @@ py_xyxymatch(PyObject *self, PyObject *args, PyObject *kwds)
     result = Py_BuildValue("N", result_arr);
 
 exit:
-    Py_XDECREF(input_array);
-    Py_XDECREF(ref_array);
+    Py_XDECREF((PyObject *) input_array);
+    Py_XDECREF((PyObject *) ref_array);
     if (result == NULL) {
         free(output);
     }

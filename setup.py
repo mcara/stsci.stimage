@@ -42,7 +42,7 @@ cfg = {
 }
 if not FREE_THREADED_PYTHON:
     cfg["define_macros"].append(
-        ("Py_LIMITED_API", 0x03090000)  # PY_VERSION_HEX for 3.9
+        ("Py_LIMITED_API", 0x030B0000)  # PY_VERSION_HEX for 3.11
     )
     cfg["py_limited_api"] = True
 
@@ -55,6 +55,7 @@ else:
     cfg["extra_compile_args"] += [
         "-Wall",
         "-Wextra",
+        "-Werror",
         "-Wpedantic",
         "-Wno-unused-parameter",
         "-Wincompatible-pointer-types",
@@ -73,7 +74,7 @@ ext_modules = [
 
 SETUPTOOLS_OPTIONS = {}
 if not FREE_THREADED_PYTHON:
-    SETUPTOOLS_OPTIONS["bdist_wheel"] = {"py_limited_api": "cp311"}
+    SETUPTOOLS_OPTIONS["bdist_wheel"] = {"py_limited_api": "cp311"}  # Python 3.11
 
 setup(
     ext_modules=ext_modules,
