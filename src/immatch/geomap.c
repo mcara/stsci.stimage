@@ -1379,7 +1379,7 @@ geo_get_results(
     geomap_result_t *const result, stimage_error_t *const error)
 {
 
-    long ngood = 0;
+    size_t ngood = 0;
     size_t i = 0;
     int status = 1;
 
@@ -1392,9 +1392,9 @@ geo_get_results(
     result->fit_geometry = fit->fit_geometry;
     result->function = fit->function;
 
-    ngood = MAX(0, fit->ncoord - fit->n_zero_weighted);
+    ngood = (fit->n_zero_weighted <= fit->ncoord) ? 0 : fit->ncoord;
 
-    if (ngood <= 1) {
+    if (ngood == 0) {
         result->rms.x = 0.0;
         result->rms.y = 0.0;
     } else {
