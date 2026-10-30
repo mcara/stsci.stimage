@@ -35,11 +35,17 @@ DAMAGE.
 
 #include "wrap_util.h"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcast-function-type-mismatch"
 static PyMethodDef module_methods[] = {
-    {"xyxymatch", (PyCFunction) (void (*)(void)) py_xyxymatch, METH_VARARGS | METH_KEYWORDS, NULL},
-    {"geomap", (PyCFunction) (void (*)(void)) py_geomap, METH_VARARGS | METH_KEYWORDS, NULL},
-    {NULL, NULL, 0, NULL} /* sentinel */
+    {"xyxymatch", (PyCFunction) py_xyxymatch, METH_VARARGS | METH_KEYWORDS, NULL},
+    {"geomap", (PyCFunction) py_geomap, METH_VARARGS | METH_KEYWORDS, NULL},
+    {NULL} /* Sentinel */
 };
+#pragma clang diagnostic pop
+#pragma GCC diagnostic pop
 
 static struct PyModuleDef moduledef = {
     PyModuleDef_HEAD_INIT,
