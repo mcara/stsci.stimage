@@ -76,7 +76,7 @@ factorial(size_t n)
     STIMAGE_Int64 fac = 1;
 
     while (n > 0) {
-        fac *= n--;
+        fac *= (STIMAGE_Int64) n--;
     }
 
     return fac;
