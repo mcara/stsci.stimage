@@ -36,10 +36,10 @@ DAMAGE.
 #ifndef _STIMAGE_ERROR_H_
 #define _STIMAGE_ERROR_H_
 
-#define STIMAGE_MAX_ERROR_LEN 511
+#define STIMAGE_MAX_ERROR_LEN 512
 
 typedef struct {
-    char message[STIMAGE_MAX_ERROR_LEN + 1];
+    char message[STIMAGE_MAX_ERROR_LEN];
 } stimage_error_t;
 
 /*

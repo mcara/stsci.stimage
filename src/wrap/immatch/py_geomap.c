@@ -196,8 +196,15 @@ static PyMemberDef geomap_members[] = {
 
 static PyObject *geomap_class = NULL;
 
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
+#pragma GCC diagnostic ignored "-Wcast-qual"
+#pragma GCC diagnostic ignored "-Wincompatible-pointer-types-discards-qualifiers"
+#endif
+
 static PyType_Slot geomap_class_slots[] = {
-    {Py_tp_doc, "geomap result objects"},
+    {Py_tp_doc, PyDoc_STR("geomap result objects")},
     {Py_tp_dealloc, (void *) geomap_dealloc},
     {Py_tp_methods, geomap_methods},
     {Py_tp_members, geomap_members},
@@ -205,6 +212,10 @@ static PyType_Slot geomap_class_slots[] = {
     {Py_tp_new, (void *) geomap_new},
     {0, NULL},
 };
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic pop
+#endif
 
 static PyType_Spec geomap_class_spec = {
     .name = "py_geomap.GeomapResults",
@@ -246,7 +257,7 @@ py_geomap(PyObject *self, PyObject *args, PyObject *kwds)
     PyObject *tmp = NULL;
     PyArrayObject *tmp_arr = NULL;
     npy_intp dims = 0;
-    size_t i = 0;
+    int i = 0;
     size_t noutput = 0;
     geomap_output_t *output = NULL;
     PyObject *dtype_list = NULL;
@@ -296,8 +307,8 @@ py_geomap(PyObject *self, PyObject *args, PyObject *kwds)
         goto exit;
     }
 
-    ninput = PyArray_DIM(input_array, 0);
-    nref = PyArray_DIM(ref_array, 0);
+    ninput = (size_t) PyArray_DIM(input_array, 0);
+    nref = (size_t) PyArray_DIM(ref_array, 0);
     noutput = MAX(ninput, nref);
     output = malloc(noutput * sizeof(geomap_output_t));
     if (output == NULL) {
@@ -363,10 +374,10 @@ py_geomap(PyObject *self, PyObject *args, PyObject *kwds)
     ADD_ARR_ATTR(from_coord_t, &fit.shift, "shift");
     ADD_ARR_ATTR(from_coord_t, &fit.mag, "mag");
     ADD_ARR_ATTR(from_coord_t, &fit.rotation, "rotation");
-    ADD_ARRAY(fit.nxcoeff, fit.xcoeff, "xcoeff");
-    ADD_ARRAY(fit.nycoeff, fit.ycoeff, "ycoeff");
-    ADD_ARRAY(fit.nx2coeff, fit.x2coeff, "x2coeff");
-    ADD_ARRAY(fit.ny2coeff, fit.y2coeff, "y2coeff");
+    ADD_ARRAY((int) fit.nxcoeff, fit.xcoeff, "xcoeff");
+    ADD_ARRAY((int) fit.nycoeff, fit.ycoeff, "ycoeff");
+    ADD_ARRAY((int) fit.nx2coeff, fit.x2coeff, "x2coeff");
+    ADD_ARRAY((int) fit.ny2coeff, fit.y2coeff, "y2coeff");
 
     result = Py_BuildValue("OO", fit_obj, output_array);
 

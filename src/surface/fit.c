@@ -128,28 +128,32 @@ surface_fit_add_points(
     /* Calculate the non-zero basis functions */
     switch (s->type) {
         case surface_type_polynomial:
-            if (basis_poly(ncoord, 0, coord, s->xorder, s->xmaxmin, s->xrange, xbasis, error)) {
+            if (basis_poly(
+                    ncoord, 0, coord, (int) s->xorder, s->xmaxmin, s->xrange, xbasis, error)) {
                 goto exit;
             }
-            if (basis_poly(ncoord, 1, coord, s->yorder, s->ymaxmin, s->yrange, ybasis, error)) {
+            if (basis_poly(
+                    ncoord, 1, coord, (int) s->yorder, s->ymaxmin, s->yrange, ybasis, error)) {
                 goto exit;
             }
             break;
         case surface_type_chebyshev:
             if (basis_chebyshev(
-                    ncoord, 0, coord, s->xorder, s->xmaxmin, s->xrange, xbasis, error)) {
+                    ncoord, 0, coord, (int) s->xorder, s->xmaxmin, s->xrange, xbasis, error)) {
                 goto exit;
             }
             if (basis_chebyshev(
-                    ncoord, 1, coord, s->yorder, s->ymaxmin, s->yrange, ybasis, error)) {
+                    ncoord, 1, coord, (int) s->yorder, s->ymaxmin, s->yrange, ybasis, error)) {
                 goto exit;
             }
             break;
         case surface_type_legendre:
-            if (basis_legendre(ncoord, 0, coord, s->xorder, s->xmaxmin, s->xrange, xbasis, error)) {
+            if (basis_legendre(
+                    ncoord, 0, coord, (int) s->xorder, s->xmaxmin, s->xrange, xbasis, error)) {
                 goto exit;
             }
-            if (basis_legendre(ncoord, 1, coord, s->yorder, s->ymaxmin, s->yrange, ybasis, error)) {
+            if (basis_legendre(
+                    ncoord, 1, coord, (int) s->yorder, s->ymaxmin, s->yrange, ybasis, error)) {
                 goto exit;
             }
             break;

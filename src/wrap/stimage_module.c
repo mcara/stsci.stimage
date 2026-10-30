@@ -35,22 +35,11 @@ DAMAGE.
 
 #include "wrap_util.h"
 
-PyObject *
-py_xyxymatch(PyObject *, PyObject *, PyObject *);
-PyObject *
-py_geomap(PyObject *, PyObject *, PyObject *);
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wcast-function-type-mismatch"
 static PyMethodDef module_methods[] = {
-    {"xyxymatch", (PyCFunction) py_xyxymatch, METH_VARARGS | METH_KEYWORDS, NULL},
-    {"geomap", (PyCFunction) py_geomap, METH_VARARGS | METH_KEYWORDS, NULL},
-    {NULL} /* Sentinel */
+    {"xyxymatch", (PyCFunction) (void (*)(void)) py_xyxymatch, METH_VARARGS | METH_KEYWORDS, NULL},
+    {"geomap", (PyCFunction) (void (*)(void)) py_geomap, METH_VARARGS | METH_KEYWORDS, NULL},
+    {NULL, NULL, 0, NULL} /* sentinel */
 };
-#pragma clang diagnostic pop
-#pragma GCC diagnostic pop
 
 static struct PyModuleDef moduledef = {
     PyModuleDef_HEAD_INIT,
@@ -65,11 +54,14 @@ static struct PyModuleDef moduledef = {
 };
 
 PyMODINIT_FUNC
+PyInit__stimage(void);
+
+PyMODINIT_FUNC
 PyInit__stimage(void)
 {
     PyObject *m;
 
-    SIZE_T_D = sizeof(size_t) == 8 ? "u8" : "u4";
+    // SIZE_T_D = sizeof(size_t) == 8 ? "u8" : "u4";
     m = PyModule_Create(&moduledef);
 
     import_array();

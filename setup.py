@@ -53,12 +53,36 @@ else:
     cfg["define_macros"].append(("NDEBUG", None))
     cfg["libraries"].append("m")
     cfg["extra_compile_args"] += [
+        "-O2",
         "-Wall",
         "-Wextra",
         "-Werror",
         "-Wpedantic",
         "-Wno-unused-parameter",
         "-Wincompatible-pointer-types",
+    ]
+
+    cfg["extra_compile_args"] += [
+        "-Wconversion",
+        "-Wsign-conversion",
+        "-Wshadow",
+        "-Wuninitialized",
+        "-Wconditional-uninitialized",
+        "-Wsometimes-uninitialized",
+        "-Wnull-dereference",
+        "-Warray-bounds",
+        "-Wformat=2",
+        "-Wcast-align",
+        #"-Wcast-qual",
+        "-Wwrite-strings",
+        "-Wstrict-prototypes",
+        "-Wmissing-prototypes",
+        "-Wmissing-declarations",
+        "-Wimplicit-fallthrough",
+        #"-Wswitch-enum",
+        "-Wundef",
+        "-Wvla",
+        #"-Wdocumentation",
     ]
 
 # importing these extension modules is tested in `.github/workflows/build.yml`;
